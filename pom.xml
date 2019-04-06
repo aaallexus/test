@@ -2,14 +2,15 @@
       xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
       <modelVersion>4.0.0</modelVersion>
      
-      <groupId>com.mycompany.app</groupId>
-      <artifactId>my-app</artifactId>
+      <groupId>com.test</groupId>
+      <artifactId>test</artifactId>
       <packaging>war</packaging>
-      <version>1.0-SNAPSHOT</version>
+      <version>Test</version>
      
       <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
+        <app.version>1.0</app.version>
     </properties>
     <modules>
         <!-- naviWFM -->
