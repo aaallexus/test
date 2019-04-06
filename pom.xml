@@ -5,7 +5,7 @@
       <groupId>com.test</groupId>
       <artifactId>test</artifactId>
       <packaging>pom</packaging>
-      <version>{app.version}</version>
+      <version>1.0</version>
      
       <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
