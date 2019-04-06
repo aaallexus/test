@@ -13,9 +13,7 @@
         <app.version>1.0</app.version>
     </properties>
     <modules>
-        <!-- naviWFM -->
         <module>ui</module>
-        <module>rest</module>
     </modules>
     <build>
         <plugins>
