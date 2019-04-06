@@ -4,8 +4,8 @@
      
       <groupId>com.test</groupId>
       <artifactId>test</artifactId>
-      <packaging>war</packaging>
-      <version>Test</version>
+      <packaging>pom</packaging>
+      <version>{app.version}</version>
      
       <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
