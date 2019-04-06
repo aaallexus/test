@@ -5,7 +5,7 @@
     <parent>
         <artifactId>test</artifactId>
         <groupId>com.test</groupId>
-        <version>${wfm.version}</version>
+        <version>${app.version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
