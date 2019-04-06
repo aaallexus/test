@@ -14,6 +14,7 @@
     </properties>
     <modules>
         <module>ui</module>
+        <module>rest</module>
     </modules>
     <build>
         <plugins>
@@ -31,6 +32,11 @@
           <artifactId>junit</artifactId>
           <version>4.12</version>
           <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.test</groupId>
+            <artifactId>rest</artifactId>
+            <version>${app.version}</version>
         </dependency>
       </dependencies>
     </project>
