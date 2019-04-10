@@ -14,5 +14,5 @@
     <version>${app.version}</version>
 </project>
 <build>
-        <sourceDirectory>src/main/webapp/build/</sourceDirectory>
+        <sourceDirectory>src/main/webapp/build</sourceDirectory>
 </build>
