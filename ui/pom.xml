@@ -13,3 +13,6 @@
     <packaging>war</packaging>
     <version>${app.version}</version>
 </project>
+<build>
+        <sourceDirectory>src/main/webapp/build/</sourceDirectory>
+</build>
