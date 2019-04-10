@@ -14,5 +14,10 @@
     <version>${app.version}</version>
     <build>
         <sourceDirectory>src/main/webapp/build</sourceDirectory>
+	<resources>
+                <resource>
+                    <directory>${basedir}/src/main/webapp/build</directory>
+                </resource>
+            </resources>
     </build>
 </project>
