@@ -12,7 +12,7 @@
     <artifactId>ui</artifactId>
     <packaging>war</packaging>
     <version>${app.version}</version>
-</project>
-<build>
+    <build>
         <sourceDirectory>src/main/webapp/build</sourceDirectory>
-</build>
+    </build>
+</project>
