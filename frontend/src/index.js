@@ -1,0 +1,65 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Switch,Route} from 'react-router'
+import { createStore, applyMiddleware,compose} from 'redux'
+import { Provider } from 'react-redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import thunkMiddleware from 'redux-thunk'
+import { ConnectedRouter, connectRouter, routerMiddleware } from 'connected-react-router'
+import { createBrowserHistory, createMemoryHistory} from 'history'
+
+import axios from 'axios'
+import axiosMiddleware from 'redux-axios-middleware'
+
+import createRootReducer from './reducers'
+import  Users from './containers/Users'
+
+import './index.css'
+import App from './components/App'
+import TestComponent from './components/TestComponent'
+import * as serviceWorker from './serviceWorker'
+
+const history = createBrowserHistory()
+//const history = createMemoryHistory()
+
+const client = axios.create({
+	baseURL: 'http://catalogue.nlu.org.ua/new/rest/api.php',
+	responseType: 'json',
+});
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+let store = createStore(
+  createRootReducer(history),
+  composeEnhancers(applyMiddleware(axiosMiddleware(client))),
+);
+
+/*const store = createStore(
+    createRootReducer(history),
+    composeWithDevTools(
+        applyMiddleware(
+          routerMiddleware(history),      
+          thunkMiddleware
+        )
+    )
+)
+*/
+
+ReactDOM.render(
+    <Provider store={store}>
+        <ConnectedRouter  history={history}>
+            <App>
+                <Route exact path="/" component={TestComponent}/>
+                <Route exact path="/users" component={Users}/>
+            </App>
+        </ConnectedRouter>
+    </Provider>,
+    document.getElementById('root')
+)
+    
+//    render(<App />, document.getElementById('root'))
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
