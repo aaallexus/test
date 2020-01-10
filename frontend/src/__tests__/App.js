@@ -43,7 +43,7 @@ it("Render and Test Redux component", () => {
     expect(container.querySelector("label").textContent).toBe('Hello')
 
 
-    expect(document.querySelector('[data-testid="button1"]')).toBeTruthy()
+    //expect(document.querySelector('[data-testid="button1"]')).toBeTruthy()
     store = mockStore({ users:{caption:"Hell"}});
     expect(container.querySelector("label").textContent).toBe('Hello')
 })

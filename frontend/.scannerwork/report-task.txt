@@ -1,0 +1,6 @@
+projectKey=CXBI
+serverUrl=http://192.168.1.26:9005
+serverVersion=8.1.0.31237
+dashboardUrl=http://192.168.1.26:9005/dashboard?id=CXBI
+ceTaskId=AW-O0ryMdTB8VRfo2Y-f
+ceTaskUrl=http://192.168.1.26:9005/api/ce/task?id=AW-O0ryMdTB8VRfo2Y-f
