@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { act } from "react-dom/test-utils"
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
@@ -7,7 +6,6 @@ import { Provider } from 'react-redux'
 import { render, unmountComponentAtNode } from "react-dom"
 
 import Users from '../containers/Users'
-import { loadHot } from '../actions'
 import TestComponent from '../components/TestComponent'
 
 const initialState = { users:{caption:"Hello"} };
@@ -28,13 +26,12 @@ afterEach(() => {
 });
 
 
-/*it("Render and Test dummy component", () => {
+it("Render and Test dummy component", () => {
     act(()=>{
         render(<TestComponent/>, container)
     })
     expect(container.querySelector("label").textContent).toBe('Hello')
 })
-*/
 it("Render and Test Redux component", () => {
     act(()=>{
         render(<Provider store={store}><Users/></Provider>,container)

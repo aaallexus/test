@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Users from '../components/Users'
-import { inc, dec, loadHot } from '../actions'
+import { loadHot } from '../actions'
 
 const mapStateToProps = function(state)
 {
