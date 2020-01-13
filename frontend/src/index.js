@@ -17,8 +17,8 @@ import App from './components/App'
 import TestComponent from './components/TestComponent'
 import * as serviceWorker from './serviceWorker'
 
-//const history = createBrowserHistory()
-const history = createHashHistory()
+const history = createBrowserHistory()
+//const history = createHashHistory()
 //const history = createMemoryHistory()
 
 const client = axios.create({
@@ -27,6 +27,8 @@ const client = axios.create({
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+console.log(history)
 
 let store = createStore(
   createRootReducer(history),
