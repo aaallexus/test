@@ -4,7 +4,7 @@ import {Route} from 'react-router'
 import { createStore, applyMiddleware,compose} from 'redux'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { createBrowserHistory/*, createMemoryHistory*/} from 'history'
+import { createHashHistory,createBrowserHistory/*, createMemoryHistory*/} from 'history'
 
 import axios from 'axios'
 import axiosMiddleware from 'redux-axios-middleware'
@@ -17,7 +17,8 @@ import App from './components/App'
 import TestComponent from './components/TestComponent'
 import * as serviceWorker from './serviceWorker'
 
-const history = createBrowserHistory()
+//const history = createBrowserHistory()
+const history = createHashHistory()
 //const history = createMemoryHistory()
 
 const client = axios.create({
