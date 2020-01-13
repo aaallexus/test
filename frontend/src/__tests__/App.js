@@ -26,12 +26,12 @@ afterEach(() => {
 });
 
 
-it("Render and Test dummy component", () => {
+/*it("Render and Test dummy component", () => {
     act(()=>{
         render(<TestComponent/>, container)
     })
     expect(container.querySelector("label").textContent).toBe('Hello')
-})
+})*/
 it("Render and Test Redux component", () => {
     act(()=>{
         render(<Provider store={store}><Users/></Provider>,container)
