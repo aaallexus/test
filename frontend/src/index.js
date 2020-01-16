@@ -31,6 +31,7 @@ const client = axios.create({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+console.log(history);
 
 let store = createStore(
   createRootReducer(history),
