@@ -5,7 +5,7 @@ export function loginRequest(param) {
             request: {
                 method:'POST',
                 data:{
-                    login:param.login,
+                    username:param.login,
                     password:param.password
                 },
             },

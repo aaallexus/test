@@ -7,7 +7,7 @@ class App extends Component{
         const {main} = this.props
         return (
             <>
-            {main.isAuth ? (
+            {!main.isAuth ? (
                 <LoginForm/>
             ) : (
             <div className="wrapper ">

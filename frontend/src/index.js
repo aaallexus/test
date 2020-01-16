@@ -25,10 +25,32 @@ const history = createBrowserHistory()
 
 const client = axios.create({
 //	baseURL: 'http://catalogue.nlu.org.ua/new/rest/api.php',
-    baseURL: 'http://192.168.1.26/cxbi/rest.php',
-	responseType: 'json',
-});
+//    baseURL: 'http://192.168.1.26/cxbi/rest.php',
+//     baseURL: 'http://192.168.1.26:8000/api/token',
+    baseURL: 'http://192.168.1.26/api/token',
+//	responseType: 'json',
+    responseType:'text',
+    headers: {
+        get:{
+            'Accept': 'application/x-www-form-urlencoded,*/*',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        },
+        post:{
+//            'Accept': 'application/x-www-form-urlencoded,*/*',
+//            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
 
+        },
+    },
+});
+/*
+axios.post('http://192.168.1.26/cxbi/rest.php',{
+    headers:{
+                    'Accept': 'application/x-www-form-urlencoded',
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                   'X-Requested-With': 'XMLHttpRequest'
+                }
+})
+*/
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 console.log(history);
