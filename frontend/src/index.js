@@ -27,7 +27,7 @@ const client = axios.create({
 //	baseURL: 'http://catalogue.nlu.org.ua/new/rest/api.php',
 //    baseURL: 'http://192.168.1.26/cxbi/rest.php',
 //     baseURL: 'http://192.168.1.26:8000/api/token',
-    baseURL: 'http://192.168.1.26/api/token',
+    baseURL: 'http://192.168.1.26/api/token/',
 //	responseType: 'json',
     responseType:'text',
     headers: {
