@@ -29,8 +29,7 @@ class LocalUserAdd(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, format=None):
-        new_local_user_data = request.data.get('new_user', None)
-        serializer = UserCreateSerializer(data=new_local_user_data)
+        serializer = UserCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             saved_user = serializer.save()
         return Response({'message': 'User {} successfully created'.format(saved_user.username)},
@@ -40,24 +39,17 @@ class LocalUserAdd(APIView):
 class LocalUserDetail(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_object(self, pk):
-        try:
-            return _usermodel.objects.get(pk=pk)
-        except _usermodel.DoesNotExist:
-            raise Http404
-
     def get(self, request, pk, format=None):
-        local_user_instance = self.get_object(pk)
+        local_user_instance = get_object_or_404(_usermodel.objects.all(), pk=pk)
         serializer = FullUserSerializer(local_user_instance, context={'request': self.request})
         return Response({'result': serializer.data}, status=status.HTTP_200_OK)
 
     def put(self, request, pk, format=None):
-        local_user_instance = self.get_object(pk)
-        updated_user = request.data.get('updated_user')
+        local_user_instance = get_object_or_404(_usermodel.objects.all(), pk=pk)
         #
         # ## check permission here
         #
-        serializer = FullUserSerializer(instance=local_user_instance, data=updated_user, partial=True)
+        serializer = FullUserSerializer(instance=local_user_instance, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             user_updated = serializer.save()
         return Response({'message': 'User {} updated successfully'.format(user_updated.username)},
@@ -87,8 +79,7 @@ class LocalUserChangePassword(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, format=None):
-        # we must give rights to this endpoint to authenticated users
-        # user_instance = get_object_or_404(_usermodel.objects.all(), pk=pk)
+        # we must give rights to access this endpoint to authenticated users
 
         serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):
@@ -105,9 +96,8 @@ class LocalUserProvidingSuperUserAccess(APIView):
     def put(self, request, pk, format=None):
         # we must give rights to this endpoint to superusers only
         local_user_instance = get_object_or_404(_usermodel.objects.all(), pk=pk)
-        updated_user = request.data.get('updated_user')
 
-        serializer = SuperUserAccessSerializer(instance=local_user_instance, data=updated_user)
+        serializer = SuperUserAccessSerializer(instance=local_user_instance, data=request.data)
 
         if serializer.is_valid(raise_exception=True):
             user_updated = serializer.save()

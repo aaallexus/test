@@ -40,10 +40,8 @@ class ApiV1AuthTestCase(APITestCase):
         )
 
         self.right_data = {
-            "new_user": {
                 "username": "adminadmin", "email": "ee2020@gmail.com", 'password': 'PpPp123456',
                 'first_name': "Admiiiin", 'is_staff': True,
-            }
         }
 
         self.right_auth_data = {"username": "user1", "password": "QQ12121212"}
@@ -96,10 +94,8 @@ class ApiV1UserManipulationTestCase(APITestCase):
 
         self.right_auth_data = {"username": "user1", "password": "QQ12121212"}
         self.right_data = {
-            "new_user": {
                 "username": "adminadmin", "email": "ee2020@gmail.com", 'password': 'PpPp123456',
                 'first_name': "Admiiiin", 'is_staff': True,
-            }
         }
 
         # URL for get auth token.
@@ -118,24 +114,22 @@ class ApiV1UserManipulationTestCase(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer  {}".format(self.first_user_token))
 
         data_with_right_password = {
-            "new_user": {
                 "username": "adminadmin3", "email": "ee2024@ee.com", 'password': 'w123w5678',
                 'first_name': "Admiiiin3"
-            }
+
         }
 
         data_with_not_serializable_fields = {
-            "new_user": {
                 "username": "adminadmin4", "email": "ee2025@ee.com", 'password': 'PpPe123456',
                 'first_name': "Admiiiin4", 'is_superuser': True, 'fake_field': 'fake_value',
-            }
         }
+
         # create user with right data
         response = self.client.post(self.create_user_url, self.right_data, format='json')
         self.assertContains(response, 'successfully created', status_code=201)
 
         # is_staff is True
-        local_user = _usermodel.objects.get(username=self.right_data['new_user']['username'])
+        local_user = _usermodel.objects.get(username=self.right_data['username'])
         self.assertEqual(local_user.is_staff, True)
 
         # create user with good password
@@ -149,9 +143,9 @@ class ApiV1UserManipulationTestCase(APITestCase):
         # is_staff is False
         # is_superuser is False
         # hasattr fake_field False
-        local_user = _usermodel.objects.get(username=data_with_not_serializable_fields['new_user']['username'])
+        local_user = _usermodel.objects.get(username=data_with_not_serializable_fields['username'])
         self.assertEqual(local_user.is_staff, False)
-        self.assertEqual(local_user.is_staff, False)
+        self.assertEqual(local_user.is_superuser, False)
         self.assertEqual(hasattr(local_user, 'fake_field'), False)
 
     def test_add_user_unsuccessful(self):
@@ -161,24 +155,18 @@ class ApiV1UserManipulationTestCase(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer  {}".format(self.first_user_token))
 
         data_wit_wrong_email = {
-            "new_user": {
                 "username": "adminadmin2", "email": "ee2021@.com", 'password': 'PpPp123456',
                 'first_name': "Admiiiin2"
-            }
         }
 
         data_with_wrong_password = {
-            "new_user": {
                 "username": "adminadmin3", "email": "ee2024@ee.com", 'password': 'PpP',
                 'first_name': "Admiiiin3"
-            }
         }
 
         data_with_wrong_password2 = {
-            "new_user": {
                 "username": "adminadmin3", "email": "ee2024@ee.com", 'password': '12345678',
                 'first_name': "Admiiiin3"
-            }
         }
 
         # create user with right data
@@ -209,22 +197,20 @@ class ApiV1UserManipulationTestCase(APITestCase):
 
         # add second user
         right_data_2 = {
-            "new_user": {
                 "username": "adminadmin3", "email": "ee2024@ee.com", 'password': 'QQ12345678',
                 'first_name': "Admiiiin3"
-            }
         }
 
         response = self.client.post(self.create_user_url, right_data_2, format='json')
         self.assertContains(response, 'successfully created', status_code=201)
 
-        local_user = _usermodel.objects.get(username=right_data_2['new_user']['username'])
+        local_user = _usermodel.objects.get(username=right_data_2['username'])
         username_before = local_user.username
 
         # update username
         response = self.client.put(
             reverse(self.update_user_url, kwargs={'pk': local_user.id}),
-            {'updated_user': {'username': 'superpuper'}},
+            {'username': 'superpuper'},
             format='json'
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -239,13 +225,10 @@ class ApiV1UserManipulationTestCase(APITestCase):
         # last_name
         # is_staff
         updated_data = {
-            'updated_user':
-                {
                     'email': 'newmail@mail.com',
                     'first_name': 'user!',
                     'last_name': 'Super',
                     'is_staff': True,
-                }
         }
         response = self.client.put(
             reverse(self.update_user_url, kwargs={'pk': local_user.id}),
@@ -257,26 +240,23 @@ class ApiV1UserManipulationTestCase(APITestCase):
         local_user_updated_as_dict = vars(_usermodel.objects.get(id=local_user.id))
 
         # source user is not equal to updated one
-        for key in updated_data['updated_user'].keys():
+        for key in updated_data.keys():
             self.assertNotEqual(local_user_before_update_as_dict[key], local_user_updated_as_dict[key])
 
         # equality test updated field user with updated data
-        for key, value in updated_data['updated_user'].items():
+        for key, value in updated_data.items():
             self.assertEqual(value, local_user_updated_as_dict[key])
 
         # test to not equal user source fields to updated data
-        for key, value in updated_data['updated_user'].items():
+        for key, value in updated_data.items():
             self.assertNotEqual(value, local_user_before_update_as_dict[key])
 
         # update  attempt with not serializable fields in the request
         test_date = datetime.now(tz=pytz.utc)
 
         updated_data = {
-            'updated_user':
-                {
                     'is_superuser': True,
                     'date_joined': test_date
-                }
         }
         response = self.client.put(
             reverse(self.update_user_url, kwargs={'pk': local_user.id}),
@@ -288,11 +268,11 @@ class ApiV1UserManipulationTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # it is asserted that is nothing changed
-        for key, value in updated_data['updated_user'].items():
+        for key, value in updated_data.items():
             self.assertNotEqual(value, local_user_updated_as_dict[key])
 
         # it is asserted that the corresponding user's fields values​remain the same after the upgrade
-        for key in updated_data['updated_user'].keys():
+        for key in updated_data.keys():
             self.assertEqual(local_user_before_update_as_dict[key], local_user_updated_as_dict[key])
 
 
@@ -306,23 +286,21 @@ class ApiV1UserManipulationTestCase(APITestCase):
 
         # add second user
         right_data_2 = {
-            "new_user": {
                 "username": "adminadmin3", "email": "ee2024@ee.com", 'password': 'QQ12345678',
                 'first_name': "Admiiiin3"
-            }
         }
 
         response = self.client.post(self.create_user_url, right_data_2, format='json')
         self.assertContains(response, 'successfully created', status_code=201)
 
         # obtain created user id
-        local_user = _usermodel.objects.get(username=right_data_2['new_user']['username'])
+        local_user = _usermodel.objects.get(username=right_data_2['username'])
         # username_before = local_user.username
 
         # attempt to update created user username with first_user username
         response = self.client.put(
             reverse(self.update_user_url, kwargs={'pk': local_user.id}),
-            {'updated_user': {'username': self.first_user.username}},
+            {'username': self.first_user.username},
             format='json'
         )
 
@@ -331,7 +309,7 @@ class ApiV1UserManipulationTestCase(APITestCase):
         # attempt to update created user username with wrong value
         response = self.client.put(
             reverse(self.update_user_url, kwargs={'pk': local_user.id}),
-            {'updated_user': {'username': '\\\\n'}},
+            {'username': '\\\\n'},
             format='json'
         )
 
@@ -439,11 +417,8 @@ class PasswordSetManipulation(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Bearer  {}".format(self.second_user_token))
 
         updated_data = {
-            'updated_user':
-                {
 
                     'is_superuser': True,
-                }
         }
         response = self.client.put(
             reverse(self.user_provide_superuser_rights_url, kwargs={'pk': 1}),
