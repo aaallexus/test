@@ -2,8 +2,9 @@ import { connect } from 'react-redux'
 import Users from '../components/Users'
 import { loadHot } from '../actions'
 
-const mapStateToProps = function(state)
+const mapStateToProps = function(state, ownProps)
 {
+    console.log(ownProps);
     return ({
         users:state.users
     })

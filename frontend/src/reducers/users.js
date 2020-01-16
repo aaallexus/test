@@ -8,13 +8,12 @@ export default function users(state = initialState, action) {
         case 'LOAD_HOT':
             return {
                 ...state,
-            };
+            }
         case 'LOAD_HOT_SUCCESS':
             return {
                 ...state,
                 caption:action.payload.data.title
             }
-            break;
         default :
             return state
     }

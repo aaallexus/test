@@ -8,9 +8,9 @@ export function loadHot() {
                 data:{
                     action:1
                 },
-				params:{
+/*				params:{
 					tre:1
-				}
+				}*/
             },
         },
     };

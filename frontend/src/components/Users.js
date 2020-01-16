@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 class Users extends Component{
 //    <Link to='/'>Next</Link>
     render(){
+        console.log(this.props);
 		var {users}=this.props
         return (<>
             <label>{users.caption}</label>
