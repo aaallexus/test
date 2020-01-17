@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Users from '../components/Users'
-import { loadHot } from '../actions'
+import { getUsersList } from '../actions/users'
 
 const mapStateToProps = function(state, ownProps)
 {
@@ -9,9 +9,8 @@ const mapStateToProps = function(state, ownProps)
     })
 }
 const mapDispatchToProps = (dispatch,ownProps) => ({
-    onLoadHot: () => dispatch(loadHot())
+   getUsersList: () => dispatch(getUsersList())
 })
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps

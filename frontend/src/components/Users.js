@@ -1,8 +1,9 @@
 import React,{Component} from 'react'
 class Users extends Component{
-//    <Link to='/'>Next</Link>
+    componentDidMount(){
+        this.props.getUsersList()
+    }
     render(){
-        console.log(this.props);
 		var {users}=this.props
         return (<>
             <label>{users.caption}</label>
@@ -10,6 +11,7 @@ class Users extends Component{
             <button data-testid="button2">asd</button>
         </>)
     }
+
 }
 
 export default Users

@@ -1,14 +1,17 @@
 var initialState={
-    sessionId:0,
     menu:[
         {   
-                                        title:'Users'
-                                    },
-                                {   
-                                                                title:'Settings'
-                                                            }
+            title:'Users',
+            url:'/users/',
+        },
+        {   
+            title:'Settings',
+            url:'/setting/',
+        }
     ],
-    isAuth:false
+    isAuth:false,
+    accessToken:null,
+    refreshToken:null
 }
 export default function (state = initialState, action) {
     switch(action.type){
@@ -17,20 +20,22 @@ export default function (state = initialState, action) {
                 ...state,
             }
         case 'LOGIN_SUCCESS':
-            if(action.payload.data.result=='ok')
+            console.log(action.payload);
+            if(action.payload.status===200 && action.payload.statusText==='OK')
             {
                 return {
                     ...state,
                     isAuth:true,
-                    sessionId:2,
-                    menu:[
+                    accessToken:action.payload.data.access,
+                    refreshToken:action.payload.data.refresh,
+/*                    menu:[
                         {
                             title:'Users'
                         },
                         {
                             title:'Settings'
                         }
-                    ]
+                    ]*/
                 }
             }
             else
@@ -39,7 +44,8 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isAuth:false,
-                sessionId:0
+                accessToken:null,
+                refreshToken:null
             }
         default :
             return state

@@ -3,6 +3,7 @@ export function loginRequest(param) {
         type: 'LOGIN',
         payload: {
             request: {
+                url:'/token/',
                 method:'POST',
                 data:{
                     username:param.login,
