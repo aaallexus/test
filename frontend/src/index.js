@@ -35,8 +35,6 @@ const client = axios.create({
         post:{
             'Accept': 'application/json,*/*',
             'Content-Type': 'application/json; charset=UTF-8',
-//            'Access':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTc5Mjc3MDExLCJqdGkiOiIwNDg2MjQ0ZmMyOWQ0MDJmOTg4ZWNjMTQ5M2I4OTkxOCIsInVzZXJfaWQiOjF9.C0LeVe1ZPVaAvyDU75eXR8Y5X2K8GBo1B250nupLB0M',
-
         },
     },
 });
