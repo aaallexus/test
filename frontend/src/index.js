@@ -9,14 +9,6 @@ import { createHashHistory,createBrowserHistory/*, createMemoryHistory*/} from '
 import axios from 'axios'
 
 
-import {
-      isLoggedIn,
-      setAuthTokens,
-      clearAuthTokens,
-      getAccessToken,
-      getRefreshToken
-} from "axios-jwt"
-
 import axiosMiddleware from 'redux-axios-middleware'
 
 import createRootReducer from './reducers'
@@ -35,27 +27,13 @@ const history = createBrowserHistory()
 //const history = createMemoryHistory()
 
 const client = axios.create({
-//   baseURL: 'http://192.168.1.26/api/token/',
-    baseURL: 'http://devci.naviwfm.com/api',
-	responseType: 'json',
+    baseURL:'/api',
+	esponseType: 'json',
     headers: {
         'Accept': '*/*',
         'Content-type': 'application/json'
-//        'Authorization':"asdasd",
     },
 });
-//client.defaults.headers.common['Authorization'] = 'asdasdasd';
-setAuthTokens({
-    accessToken:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTc5NTE2NTM4LCJqdGkiOiIwYWM5YjBjODBhMjI0MjJkYjBiZjZiM2QwMDQ1MGRiMyIsInVzZXJfaWQiOjF9.Bl4siepr3U6ETpJo8s7k36BZsueZpTCeRY7ceKvLA8g',
-    refreshToken:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTU3OTYwMjYzOCwianRpIjoiZDg2NmZiMGQ1ZGI2NGY5YjhjMzA3ZTkwYjhmMjNkZmEiLCJ1c2VyX2lkIjoxfQ.C0O8Td2xsWMjeXDtOkqREDgse-O2BQc0P6rMgSoc9lw',
-})
-/*client.options('http://devci.naviwfm.com/api/token/',{
-    responseType: 'json',
-    headers: {
-        'Accept': 'application/x-www-form-urlencoded',
-
-    },
-})*/
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 console.log(history);
@@ -63,7 +41,10 @@ console.log(history);
 const checkToken = store => next => action => {
     console.log('dispatching', action)
     console.log(store)
-    if(action.type!=='LOGIN')
+    client.defaults.headers.common['Authorization'] = 'Bearer  '+store.getState().main.accessToken
+    if(action.type!=='LOGIN' 
+        && action.type!=='SET_ACCESS_TOKEN'
+        && action.type!='@@router/LOCATION_CHANGE')
     {
         if(store.getState().main.accessToken!==null)
         {
@@ -75,22 +56,23 @@ const checkToken = store => next => action => {
             catch{
             }
             let curTime=new Date();
+            curTime.setMinutes(curTime.getMinutes()+4)
             console.log(tokenExpire,curTime)
-            if(tokenExpire>=curTime)
+            if(tokenExpire<=curTime)
             {
                 client.post('/token/refresh/',{
                     refresh:store.getState().main.refreshToken
                 })
                 .then(function(response){
                     console.log(response.data.access);
-//                    store.dispatch(setAccessToken(response.data.access))
-                     client.defaults.headers.common['Authorization'] = 'Bearer  '+response.data.access; 
-//                     return next(setAccessToken(response.data.access))
+                    store.dispatch(setAccessToken(response.data.access))
+                    client.defaults.headers.common['Authorization'] = 'Bearer  '+response.data.access; 
                     return next(action)
                 })
 
             }
-//          return next(action)
+            else
+                return next(action)
         }
     }
     else
