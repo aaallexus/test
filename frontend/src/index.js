@@ -84,11 +84,13 @@ const checkToken = store => next => action => {
                 .then(function(response){
                     console.log(response.data.access);
 //                    store.dispatch(setAccessToken(response.data.access))
-                     return next(setAccessToken(response.data.access))
+                     client.defaults.headers.common['Authorization'] = 'Bearer  '+response.data.access; 
+//                     return next(setAccessToken(response.data.access))
+                    return next(action)
                 })
 
             }
-          return next(action)
+//          return next(action)
         }
     }
     else
