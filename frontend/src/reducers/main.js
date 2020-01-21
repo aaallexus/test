@@ -20,13 +20,14 @@ export default function (state = initialState, action) {
                 ...state,
             }
         case 'LOGIN_SUCCESS':
-            console.log(action.payload);
             if(action.payload.status===200 && action.payload.statusText==='OK')
             {
+                let tokenParts=action.payload.data.access.split('.');
                 return {
                     ...state,
                     isAuth:true,
                     accessToken:action.payload.data.access,
+                    accessTokenExpire:JSON.parse(atob(tokenParts[1])).exp*1000,
                     refreshToken:action.payload.data.refresh,
 /*                    menu:[
                         {
@@ -46,6 +47,11 @@ export default function (state = initialState, action) {
                 isAuth:false,
                 accessToken:null,
                 refreshToken:null
+            }
+        case 'SET_ACCESS_TOKEN':
+            return {
+                ...state,
+                accessToken:action.accessToken
             }
         default :
             return state
