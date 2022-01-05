@@ -1,2 +1,0 @@
-
-CXBI Rest Server
